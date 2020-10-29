@@ -35,10 +35,27 @@ def fetch_data(tickers):
         df = get_history(ticker)
         df.to_csv('{}.csv'.format(ticker))
 
+def get_period(ticker, period=10):
+    '''Add normalization by lotsize'''
+
+    tickers = pd.read_csv('./data/tickers.csv')
+    lotsize = tickers[tickers['SECID']==ticker]['LOTSIZE'].values[0]
+    df = pd.read_csv('./data/{}.csv'.format(ticker))#one timeseries
+    df.set_index('TRADEDATE', inplace=True)
+    df[ticker] = df['CLOSE']*lotsize
+    df = df[ticker].iloc[len(df)-period:]
+    return df
+def get_period_old(ticker, period=10):
+    df = pd.read_csv('./data/{}.csv'.format(ticker))#one timeseries
+    df.set_index('TRADEDATE', inplace=True)
+    df[ticker] = df['CLOSE']
+    df = df[ticker].iloc[len(df)-period:]
+    return df
 def get_column(frames,colname='CLOSE'):
     '''frame: tuple of dataframes'''
     for frame in frames:
         yield frame[colname]
+
 #for ticker in tickers['SECID']:
 #    df = pd.read_csv('./data/{}.csv'.format(ticker))
 #    frames+= df.iloc[len(df)-length:,:],
@@ -57,3 +74,30 @@ def get_column(frames,colname='CLOSE'):
 #plt.plot(frame)
 #plt.show()
 
+
+
+
+## needs composed dataframe
+#from pypfopt.efficient_frontier import EfficientFrontier
+#
+#ef = EfficientFrontier(mu, S)
+#weights = ef.max_sharpe()
+#cleaned_weights = ef.clean_weights()
+#
+#print(cleaned_weights)
+## needs composed dataframe
+#from pypfopt.efficient_frontier import EfficientFrontier
+#
+#ef = EfficientFrontier(mu, S)
+#weights = ef.max_sharpe()
+#cleaned_weights = ef.clean_weights()
+#
+#print(cleaned_weights)
+## needs composed dataframe
+#from pypfopt.efficient_frontier import EfficientFrontier
+#
+#ef = EfficientFrontier(mu, S)
+#weights = ef.max_sharpe()
+#cleaned_weights = ef.clean_weights()
+#
+#print(cleaned_weights)
