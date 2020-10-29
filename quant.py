@@ -1,6 +1,13 @@
 '''IDEA: a portfolio analyser for MOEX
-TODO: example  df with 4 tickers
-NEXT: pypfopt
+0.1: current:
+moex interface: fetch ticker list, fetch data, load data from disk
+TODO: 
+statistical methods: plot regression line??
+Correlation map for tickers!!
+combine frames into on big.
+
+methods of timeseries analysis: volatility histogram shows bimodal distribution.
+0.2: pypfopt
 
 '''
 import util
@@ -12,32 +19,33 @@ import statsmodels
 import tsfresh
 import apimoex
 import pypfopt
-
+from pypfopt.expected_returns import mean_historical_return
+from pypfopt.risk_models import CovarianceShrinkage
 
 tickers = pd.read_csv('./data/tickers.csv')
 ticker = tickers['SECID'][0]
-
-#Sample data:
-# dont care for length for now, just take last 100 entries.
-length = 100
-frames = ()
+mus, Ss = (),()
 for ticker in tickers['SECID']:
-    df = pd.read_csv('./data/{}.csv'.format(ticker))
-    frames+= df.iloc[len(df)-length:,:],
+    df = pd.read_csv('./data/{}.csv'.format(ticker))#one timeseries
+    df.set_index('TRADEDATE', inplace=True)
 
-frame = frames[0]['TRADEDATE']    
+    df[ticker] = df['CLOSE']
+    df = df[ticker]
 
-# combine dataframes into one with name and price.
-def get_column(frames,colname='CLOSE'):
-    for frame in frames:
-        yield frame[colname]
+    mu = mean_historical_return(df)
+    mus += mu[0],
+    S = CovarianceShrinkage(df).ledoit_wolf()
+    Ss += S.iloc[0,0],
+#OTLIER
+plt.figure()
+plt.scatter(Ss,mus)
+plt.show()
 
-dt = [frame['CLOSE'] for frame in frames]
-#df = pd.DataFrame(data = dt,index=frames[0]["TRADEDATE"],columns= tickers['SECID'])
-
-# search 'timeseries plotting'
-# `
-#frame = frames[0]['CLOSE']
-#plt.figure()
-#plt.plot(frame)
-#plt.show()
+## needs composed dataframe
+#from pypfopt.efficient_frontier import EfficientFrontier
+#
+#ef = EfficientFrontier(mu, S)
+#weights = ef.max_sharpe()
+#cleaned_weights = ef.clean_weights()
+#
+#print(cleaned_weights)

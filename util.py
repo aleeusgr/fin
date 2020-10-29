@@ -27,10 +27,33 @@ def get_history(ticker='SNGSP'):
     return df
 
 def fetch_data(tickers):
-    
+    # assert file present, get_tickers() otherwise    
+    tickers = pd.read_csv('./data/tickers.csv')
 
     for ticker in tickers['SECID']:
 
         df = get_history(ticker)
         df.to_csv('{}.csv'.format(ticker))
+
+def get_column(frames,colname='CLOSE'):
+    '''frame: tuple of dataframes'''
+    for frame in frames:
+        yield frame[colname]
+#for ticker in tickers['SECID']:
+#    df = pd.read_csv('./data/{}.csv'.format(ticker))
+#    frames+= df.iloc[len(df)-length:,:],
+#
+#frame = frames[0]['TRADEDATE']    
+
+# combine dataframes into one with name and price.
+
+#dt = [frame['CLOSE'] for frame in frames]
+#df = pd.DataFrame(data = dt,index=frames[0]["TRADEDATE"],columns= tickers['SECID'])
+
+# search 'timeseries plotting'
+# `
+#frame = frames[0]['CLOSE']
+#plt.figure()
+#plt.plot(frame)
+#plt.show()
 
