@@ -1,8 +1,10 @@
 #!bin/python
+'''pandas datareader wrappers'''
 
 def fetch(save = False, dset_name = 'dataset.csv'):
     '''Get data from web
      DO:
+        
      try different sources
      parameters 
 
