@@ -45,9 +45,9 @@ def get_period(ticker, period=10):
     '''
 
     tickers = pd.read_csv('./data/tickers.csv')
-    lotsize = tickers[tickers['SECID']==ticker]['LOTSIZE'].values[0]
-    df = pd.read_csv('./data/{}.csv'.format(ticker))#one timeseries
+    lotsize =  tickers[tickers['SECID'] == ticker]['LOTSIZE'].values[0]
+    df = pd.read_csv('./data/{}.csv'.format(ticker),parse_dates = ['TRADEDATE'])#one timeseries
     df.set_index('TRADEDATE', inplace=True)
     df[ticker] = df['CLOSE']/lotsize
-    df = df[ticker].iloc[len(df)-period:]
-    return df
+    #print(df)
+    return  df[ticker].iloc[len(df)-period:]
