@@ -35,6 +35,15 @@ def calculate(df):
     from pypfopt.cla import CLA
     plot_efficient_frontier(CLA(mu,S))
 
+def timer(f):
+    import time
+    start = time.time()
+    print("test_start")
+
+    f()
+    end = time.time()
+    print(end - start)
+
 '''DEPRECATED'''
 def get_period_old(ticker, period=10):
     df = pd.read_csv('./data/{}.csv'.format(ticker))#one timeseries

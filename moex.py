@@ -37,7 +37,7 @@ def fetch_data(tickers):
     for ticker in tickers['SECID']:
 
         df = get_history(ticker)
-        df.to_csv('{}.csv'.format(ticker))
+        df.to_csv('./data/{}.csv'.format(ticker))
 
 def get_period(ticker, period=10):
     '''Add normalization by lotsize
@@ -48,6 +48,6 @@ def get_period(ticker, period=10):
     lotsize = tickers[tickers['SECID']==ticker]['LOTSIZE'].values[0]
     df = pd.read_csv('./data/{}.csv'.format(ticker))#one timeseries
     df.set_index('TRADEDATE', inplace=True)
-    df[ticker] = df['CLOSE']*lotsize
+    df[ticker] = df['CLOSE']/lotsize
     df = df[ticker].iloc[len(df)-period:]
     return df
