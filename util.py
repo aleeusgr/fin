@@ -45,6 +45,26 @@ def timer(f):
     end = time.time()
     print(end - start)
 
+def missing_data(data):
+    import pandas as pd
+    import numpy as np
+    # Count number of missing value in a column
+    total = data.isnull().sum()           
+    
+    # Get Percentage of missing values
+    percent = (data.isnull().sum()/data.isnull().count()*100)   
+    temp = pd.concat([total, percent], axis=1, keys=['Tot', '%'])
+
+    ## Create a Type column, that indicates the data-type of the column.
+    #types = []
+    #for col in data.columns:
+    #    dtype = str(data[col].dtype)
+    #    types.append(dtype)
+    #temp['Types'] = types
+
+    return(np.transpose(temp))
+
+
 '''DEPRECATED'''
 def get_period_old(ticker, period=10):
     df = pd.read_csv('./data/{}.csv'.format(ticker))#one timeseries
