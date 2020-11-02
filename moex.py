@@ -3,7 +3,10 @@ import pandas as pd
 import requests
 
 def get_tickers():
-    '''rename'''    
+    '''
+    rename
+    TQBR
+    '''    
     request_url = ('https://iss.moex.com/iss/engines/stock/'
                    'markets/shares/boards/TQBR/securities.json')
     arguments = {'securities.columns': ('SECID,'
@@ -16,7 +19,7 @@ def get_tickers():
         df = pd.DataFrame(data['securities'])
         df.set_index('SECID', inplace=True)
 
-        df.to_csv('tickers.csv')
+        df.to_csv('./data/tickers.csv')
     
 def get_history(ticker='SNGSP'):    
     '''rename, returns historical data for give ticker'''
@@ -39,7 +42,7 @@ def fetch_data(tickers):
         df = get_history(ticker)
         df.to_csv('./data/{}.csv'.format(ticker))
 
-def get_period(ticker, period=10):
+def get_period(ticker):
     '''Add normalization by lotsize
     rename, reads local data
     '''
@@ -48,6 +51,6 @@ def get_period(ticker, period=10):
     lotsize =  tickers[tickers['SECID'] == ticker]['LOTSIZE'].values[0]
     df = pd.read_csv('./data/{}.csv'.format(ticker),parse_dates = ['TRADEDATE'])#one timeseries
     df.set_index('TRADEDATE', inplace=True)
-    df[ticker] = df['CLOSE']/lotsize
-    #print(df)
-    return  df[ticker].iloc[len(df)-period:]
+    # price adjustment: lotsize, currency
+    df[ticker] = df['CLOSE']*lotsize 
+    return  df[ticker]

@@ -1,16 +1,29 @@
-def random_sample(period=10,sample=10):
+def random_sample(sample=10):
     import pandas as pd
     import moex
+    
     tickers = pd.read_csv('./data/tickers.csv')
     ticker = tickers['SECID'][0]
     tickers = tickers['SECID']
     if sample != 0:
-        tickers = tickers.sample(sample)
+            tickers = tickers.sample(sample)
 
-    df = pd.concat([moex.get_period(ticker,period ) for ticker in tickers],axis = 1)
+    df = pd.concat([moex.get_period(ticker) for ticker in tickers],axis = 1)
+    empty = df.loc[:,df.isna().all()].columns
+    df = df.drop(empty,axis=1)
     #df = df.fillna(method = 'backfill',axis = 1)
-    #df = df.dropna(axis=1)
     return df
+
+def impute(df):
+    import pandas as pd
+    from sklearn.impute import KNNImputer
+    from sklearn.experimental import enable_iterative_imputer
+    from sklearn.impute import IterativeImputer
+    imputer = KNNImputer(n_neighbors=2)
+    #imputer = IterativeImputer(max_iter=10, random_state=0) #computationally heavy; did not converge
+    test = df.to_numpy()
+
+    return pd.DataFrame(imputer.fit_transform(test),index = df.index, columns = df.columns)
 
 def calculate(df):
     from pypfopt.expected_returns import mean_historical_return

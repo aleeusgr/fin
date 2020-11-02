@@ -1,6 +1,6 @@
 #!bin/python
 
-def fetch(save = False, dset_name = 'dataset.csv'):
+def fetch(save = False, dset_name = 'oil_rub'):
     '''Get data from web
      DO:
         
@@ -31,7 +31,7 @@ def fetch(save = False, dset_name = 'dataset.csv'):
     }
     web_data = {}
     start = '1998-01-01' # train_y starts here 
-    end_train = '2020-08-30' 
+    end_train = '2020-10-26' 
     for name,ticker in symbols[provider[n_prov]]:
         web_data[name] = web.DataReader(ticker,provider[n_prov],start=start) 
         web_data[name] = web_data[name].loc[:,'Close'].resample('1M').mean()
@@ -42,7 +42,7 @@ def fetch(save = False, dset_name = 'dataset.csv'):
     lengths = dset.count(0)
     dset_cut = dset.iloc[lengths.max()-lengths.min():].copy()
     if save:
-        dset_cut.to_csv('{}'.format(dset_name))
+        dset_cut.to_csv('./data/{}.csv'.format(dset_name))
     return dset_cut
 
 def loadX(save_locally = False, dset_name = 'dataset.csv'):

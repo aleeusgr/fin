@@ -10,11 +10,9 @@ import moex
 import util
 
 
-df = util.random_sample(period = 1500, sample = 0)
+df = util.random_sample( sample = 0)
 tickers = pd.read_csv('./data/tickers.csv')
-empty = df.loc[:,df.isna().all()].columns
-df = df.drop(empty,axis=1)
-df = df.fillna(method = 'bfill')
-#df.loc[:,'AGRO'].plot()
-missing = util.missing_data(df)
-print(df)
+imputation_test_ticker = 'UCSS'
+cheap = df.mean()<15000
+
+df = util.impute(df)

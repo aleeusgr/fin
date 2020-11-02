@@ -1,6 +1,6 @@
 # fin
 financial
-'''IDEA: a portfolio analyser for MOEX
+'''IDEA: a portfolio analyser  
 0.1: data
 moex interface: fetch ticker list, fetch data, load data from disk
 pandas webreader:
