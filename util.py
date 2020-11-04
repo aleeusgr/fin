@@ -58,6 +58,7 @@ def timer(f):
     end = time.time()
     print(end - start)
 
+'''DEPRECATED'''
 def missing_data(data):
     import pandas as pd
     import numpy as np
@@ -78,7 +79,6 @@ def missing_data(data):
     return(np.transpose(temp))
 
 
-'''DEPRECATED'''
 def get_period_old(ticker, period=10):
     df = pd.read_csv('./data/{}.csv'.format(ticker))#one timeseries
     df.set_index('TRADEDATE', inplace=True)
@@ -90,21 +90,13 @@ def get_column(frames,colname='CLOSE'):
     for frame in frames:
         yield frame[colname]
 
-#for ticker in tickers['SECID']:
-#    df = pd.read_csv('./data/{}.csv'.format(ticker))
-#    frames+= df.iloc[len(df)-length:,:],
-#
-#frame = frames[0]['TRADEDATE']    
+def impute_median(df):
+    '''Produces bad result'''
+    import pandas as pd
+    median = df.median()
+    df.fillna(median, inplace = True)
 
-# combine dataframes into one with name and price.
-
-#dt = [frame['CLOSE'] for frame in frames]
-#df = pd.DataFrame(data = dt,index=frames[0]["TRADEDATE"],columns= tickers['SECID'])
-
-# `
-#frame = frames[0]['CLOSE']
-#plt.figure()
-#plt.plot(frame)
-#plt.show()
-
-
+def z_max(df):
+    '''z-score of MAX of the column'''
+    d = df.describe()
+    return (d.loc['max']-d.loc['mean'])/d.loc['std']

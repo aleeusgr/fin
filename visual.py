@@ -137,9 +137,25 @@ def plot_heatmap(plot,row_labels,col_labels,cmap_num=25):
         
 
 def plot_correlation(df):
+    '''
+    using foramted heatmap
+    '''
     corr = df.corr().to_numpy()
     labels = df.columns
     plot_heatmap(corr,labels,labels)
+
+
+def plot_daily_change(df):
+    '''
+    
+    '''
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    diff = df.diff()
+    z = ((diff - diff.mean())/diff.std())
+    z = z.round(2)
+    df.plot()
+    plt.show()
 
 
 def scatter(df):
