@@ -1,4 +1,5 @@
 # fin
+## Remember to save pictures!!!
 financial
 IDEA: a portfolio analyser   
 *0.1: data  

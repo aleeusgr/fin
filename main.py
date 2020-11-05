@@ -1,4 +1,3 @@
-#import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,14 +5,18 @@ import numpy as np
 #import apimoex
 #import pypfopt
 import visual as v
-import moex
-import util
+import util,dt
 
-tickers = pd.read_csv('./data/tickers.csv')
-select = 'UCSS'
+#DATA
+df = dt.random_sample(sample = 0, random_state = 1)
+#df = dt.outlier_sample()
+cheap = df.mean()<15000
 
-#df = util.random_sample( sample = 0)
-df = pd.read_csv('./data/{}.csv'.format(select)).loc[:,'CLOSE']
+#CLEANING
 
-#cheap = df.mean()<15000
-#df = util.impute(df)
+#df = dt.impute(df)
+#df.fillna(method = 'bfill',inplace = True)
+
+
+# write a function to ID ad delete outliers
+# impute missing values AFTER outliers are out, so that they dont affect the imputation process
