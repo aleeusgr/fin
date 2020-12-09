@@ -32,6 +32,11 @@ def timer(f):
     end = time.time()
     print(end - start)
 
+def save_png(df,name):
+    
+    #df.plot(figsize=(20,10))
+    plt.savefig('./pics/{}.png'.format(name))
+
 '''DEPRECATED'''
 def linreg(df):
     '''compute regression, plot line

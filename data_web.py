@@ -1,6 +1,6 @@
 #!bin/python
 
-def fetch(save = False, dset_name = 'oil_rub'):
+def fetch(save = False, dset_name = 'RUB'):
     '''Get data from web
      DO:
         
@@ -27,15 +27,16 @@ def fetch(save = False, dset_name = 'oil_rub'):
 
     n_prov = 0
     symbols = {
-    'yahoo' : (('oil','CL=F'),('rub','RUB=X'))
+    'yahoo' : ('rub','RUB=X')#  (('oil','CL=F'),
     }
     web_data = {}
     start = '1998-01-01' # train_y starts here 
     end_train = '2020-10-26' 
-    for name,ticker in symbols[provider[n_prov]]:
-        web_data[name] = web.DataReader(ticker,provider[n_prov],start=start) 
-        web_data[name] = web_data[name].loc[:,'Close'].resample('1M').mean()
-        web_data[name].fillna(method='bfill',inplace=True)
+    name = 'rub'
+    ticker = 'RUB=X'
+    web_data[name] = web.DataReader(ticker,provider[n_prov],start=start) 
+    web_data[name] = web_data[name].loc[:,'Close'].resample('1d').mean()
+    web_data[name].fillna(method='bfill',inplace=True)
     
     import pandas as pd
     dset = pd.DataFrame.from_dict(web_data)

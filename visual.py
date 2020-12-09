@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_heatmap(plot,row_labels,col_labels,cmap_num=25):
+def heatmap(plot,row_labels,col_labels,cmap_num=25):
     ''' input: np.array?
     ??
     '''
@@ -16,16 +16,16 @@ def plot_heatmap(plot,row_labels,col_labels,cmap_num=25):
     plt.show()
         
 
-def plot_correlation(df):
+def correlation(df):
     '''
     using foramted heatmap
     '''
     corr = df.corr().to_numpy()
     labels = df.columns
-    plot_heatmap(corr,labels,labels)
+    heatmap(corr,labels,labels)
 
 
-def plot_daily_change(df):
+def daily_change(df):
     '''
     
     '''
@@ -37,6 +37,24 @@ def plot_daily_change(df):
     z.plot()
     plt.show()
 
+def regression_line(df):
+    ''' input - single ticker'''
+    from sklearn import linear_model as lm
+    from sklearn.preprocessing import PolynomialFeatures
+    
+    model = lm.SGDRegressor(max_iter=1000, tol=1e-3, penalty=None, eta0=0.1)
+    model = lm.LinearRegression()
+
+    df.fillna(method = 'bfill',inplace = True)
+    X = df.index.to_numpy().reshape(-1,1)
+    poly_features = PolynomialFeatures(degree=3, include_bias=False)
+    X_poly = poly_features.fit_transform(X)
+    Y = df.to_numpy()
+    model.fit(X_poly,Y)
+    plt.figure()
+    df.plot()
+    plt.plot(X,model.predict(X_poly))
+    plt.show()
 
 '''broken'''
 def scatter(df):
@@ -50,3 +68,4 @@ def scatter(df):
     for i in l:
         df.plot(x=i[0],y=i[1],kind='scatter',c=df.index)
         plt.show()
+
