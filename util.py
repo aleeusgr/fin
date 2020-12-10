@@ -1,21 +1,29 @@
 '''new tested functions, functions that dont have a module yet'''
-def calculate(df):
+
+def invest(df,amount = 60000):
     from pypfopt.expected_returns import mean_historical_return
     from pypfopt.risk_models import CovarianceShrinkage
 
     mu = mean_historical_return(df)
     S = CovarianceShrinkage(df).ledoit_wolf()
 
-    from pypfopt.efficient_frontier import EfficientFrontier
+    #from pypfopt.efficient_frontier import EfficientFrontier
+    #ef = EfficientFrontier(mu, S)
+    #weights = ef.min_volatility()
+    #cleaned_weights = ef.clean_weights()
+    #print(ef.portfolio_performance(verbose=True))
 
-    ef = EfficientFrontier(mu, S)
-    weights = ef.min_volatility()
-    cleaned_weights = ef.clean_weights()
-    print(ef.portfolio_performance(verbose=True))
+
+    from pypfopt.hierarchical_portfolio import HRPOpt
+    HRP = HRPOpt(cov_matrix = S )
+    portfolio = HRP.optimize()
+    weights = HRP.clean_weights()
+    print(HRP.portfolio_performance())
+    
     from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 
     latest_prices = get_latest_prices(df)
-    da = DiscreteAllocation(weights, latest_prices, total_portfolio_value=60000)
+    da = DiscreteAllocation(weights, latest_prices, total_portfolio_value=amount)
     allocation, leftover = da.lp_portfolio()
     print(allocation)
     
