@@ -1,24 +1,20 @@
+'''
+http://ftp.moex.com/pub/Terminals/ASTS/Equities/MOEX_Trade_SE_QuickStart_English.pdf
+
+this is project idea to build a portfolio dynamics calculator/vusialiser in jupyter lab'''
+
+#TODO
+# import ticker volumes
+# graph
 import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-#import tsfresh
-#import apimoex
-#import pypfopt
-import qlib
-import visual as v
-import util,dt
-'''
-add usd, oil(?)
-'''
+import apimoex as mx
+import requests
+from data_modules import data_moex as dtm
+from data_modules import dt
 
-#MY DATA
-df = dt.random_sample(sample = 9, random_state = 2)
-#df = dt.outlier_sample()
-cheap = df.mean()<15000
-isna = df.isna().sum()
-df = df.iloc[len(df.index)-180:]
-#CLEANING
-#df.fillna(method = 'ffill',inplace = True)
-
-
+graph_starting_date = '13.01.2021'
+engine = 'stock'
+market = 'shares'
+board = 'TQBR'
+tickers = dt.import_tickers()
 

@@ -11,9 +11,12 @@ main.py: new functionality
 *0.1: data loading 
 moex interface: fetch ticker list, fetch data, load data from disk
 TODO:
+visualise whole portfolio
 add RUBUSD, oil, (other instruments??)
 pandas webreader: implement if needed
-*0.1.1: data cleaing
+
+
+*0.1: data cleaing
 OUTLIERS:
 daily change statistical analysis: mean, std, z-score. 
 What to do with outliers? Regression model, mean, median, delete.
@@ -22,7 +25,13 @@ find number of missing values by ticker.
 * procedure: impute missing values based on timeseries model preservine return and volatility
 pandas fillna
 
-*0.2: pypfopt
+
+*0.3: timeseries analysis.   
+find frameworks  
+ARIMA  (autoregression)
+state space models  
+
+*0.5: pypfopt
 refactor
 choose optimiser
 choose risk model
@@ -31,9 +40,3 @@ Read the notebooks
 adjust for $
 build backtesting procedures.
 out of sample returns?? (another name for test set performance)
-
-*0.3: timeseries analysis.   
-find frameworks  
-ARIMA  
-state space models  
-
