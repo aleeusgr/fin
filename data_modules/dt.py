@@ -1,4 +1,4 @@
-''' tested functions to clean data'''
+''' tested functions to work with local data'''
 def random_sample(sample=3,random_state = None):
     '''load data into memory, drop empty columns'''
     import pandas as pd
@@ -37,14 +37,29 @@ def outlier_sample(t = 'UCSS'):
 
 
 def import_tickers():
-    '''Import data from my excel file'''
+    '''Import data from my excel file
+    returns a list of tickers.
+    '''
     import pandas as pd
-    df = pd.read_excel('portfolio.xlsx')
+    df = pd.read_excel('./data/portfolio.xlsx')
     select = df.iloc[:1,3:13] # make adaptable??
     
+    #FYI
     tickers = {
         'TQTF' : list(df.iloc[0,3:11].index),
         'TQTD' : list(df.iloc[0,11:13].index)
         }
 
     return select
+
+def portfolio():
+    '''
+    portfolio.xls to price timeseries
+    '''
+    import pandas as pd
+    from data_modules import data_moex as dtm
+    tickers = import_tickers()
+    df = pd.concat([dtm.get_candles(ticker,cut='close')[ticker] for ticker in tickers.columns],axis = 1) # produce dataframe with tickers as col labels and 'close' price.
+
+    df['PF'] = df.dot(tickers.iloc[0])
+    return df

@@ -1,14 +1,9 @@
 # fin
 ## Remember to save pictures!!!
-main.py: new functionality
-    dt.py: data handling
-        data_web
-        data_moex
-    visual.py: visualisation
-        heatmap.py: 
-    util.py - 
+### Refactor:
+1. I need to remake this repo ground up. The original idea was to do a task, now I want to use it as a personal module.
 
-*0.1: data loading 
+*0.1: online data 
 moex interface: fetch ticker list, fetch data, load data from disk
 TODO:
 visualise whole portfolio
@@ -25,12 +20,12 @@ find number of missing values by ticker.
 * procedure: impute missing values based on timeseries model preservine return and volatility
 pandas fillna
 
-
 *0.3: timeseries analysis.   
 find frameworks  
 ARIMA  (autoregression)
 state space models  
 
+PLANNED:
 *0.5: pypfopt
 refactor
 choose optimiser

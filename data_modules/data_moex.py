@@ -23,14 +23,17 @@ def get_history(ticker='SNGSP'):
         df.set_index('TRADEDATE', inplace=True)
     return df
 
-def get_candles(ticker='SNGSP',start = '2021-01-13'):    
-    '''rename, returns historical data for give ticker'''
+def get_candles(ticker='SNGSP',start = '2021-01-13', cut = False): 
+    '''rename, returns historical data for give ticker
+    cut: return only data for specified col, rename col with ticker name'''
     with requests.Session() as session:
 
         data = mx.get_market_candles(session, security = ticker, start=start)
 
         df = pd.DataFrame(data)
         df['begin'] = pd.to_datetime(df['begin'])
+        if cut:
+            df = df.rename(columns = {cut:ticker}) # this should be separate function
     return df
 
 def custom_request(f,ticker='SNGSP',board='TQBR'):    

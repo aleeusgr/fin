@@ -1,4 +1,7 @@
 #!bin/python
+'''
+REFACTOR: pandas_datareader, world_bank_data and other wrappers
+'''
 
 def fetch(save = False, dset_name = 'RUB'):
     '''Get data from web
