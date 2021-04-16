@@ -1,3 +1,7 @@
+'''
+https://towardsdatascience.com/company-valuation-using-probabilistic-models-with-python-712e325964b7
+'''
+
 from yahoo_fin import stock_info as si
 from matplotlib import pyplot as plt 
 import pandas_datareader as dr
