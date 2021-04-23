@@ -14,6 +14,26 @@ def get_reference(n):
         #df = pd.DataFrame(data)
     return data
 
+def get_tickers(engine = 'stock', market = 'shares', board = 'TQBR'):
+    '''
+    Only works with default values
+    full list of tickers.
+    rewrite
+    '''    
+    request_url = (f'https://iss.moex.com/iss/engines/{engine}/'
+                   'markets/{market}/boards/{board}/securities.json')
+    arguments = {'securities.columns': ('SECID,'
+                                        'REGNUMBER,'
+                                        'LOTSIZE,'
+                                        'SHORTNAME')}
+    with requests.Session() as session:
+        iss = mx.ISSClient(session, request_url, arguments)
+        data = iss.get()
+        df = pd.DataFrame(data['securities'])
+        df.set_index('SECID', inplace=True)
+
+        #df.to_csv('./data/moex_tickers.csv')
+    return df
     
 def get_history(ticker='SNGSP'):    
     '''rename, returns historical data for give ticker'''
@@ -56,7 +76,6 @@ def fetch_data(tickers):
     # assert file present, get_tickers() otherwise    
 
     '''
-    #tickers = pd.read_csv('./data/tickers.csv')
 
     for ticker in tickers['SECID']:
 
@@ -68,7 +87,7 @@ def get_period(ticker):
     rename, reads local data
     '''
 
-    tickers = pd.read_csv('./data/tickers.csv')
+    tickers = pd.read_csv('./data/moex_tickers.csv')
     lotsize =  tickers[tickers['SECID'] == ticker]['LOTSIZE'].values[0]
     df = pd.read_csv('./data/{}.csv'.format(ticker),parse_dates = ['TRADEDATE'])#one timeseries
     df.set_index('TRADEDATE', inplace=True)
@@ -77,22 +96,22 @@ def get_period(ticker):
     return  df[ticker]
 
 
-def get_tickers(engine = 'stock', market = 'shares', board = 'TQBR'):
-    '''
-    Only works with default values
-    full list of tickers.
-    rewrite
-    '''    
-    request_url = (f'https://iss.moex.com/iss/engines/{engine}/'
-                   'markets/{market}/boards/{board}/securities.json')
-    arguments = {'securities.columns': ('SECID,'
-                                        'REGNUMBER,'
-                                        'LOTSIZE,'
-                                        'SHORTNAME')}
-    with requests.Session() as session:
-        iss = apimoex.ISSClient(session, request_url, arguments)
-        data = iss.get()
-        df = pd.DataFrame(data['securities'])
-        df.set_index('SECID', inplace=True)
 
-        df.to_csv('./data/tickers.csv')
+
+def random_sample(sample=3,random_state = None):
+    '''load data into memory, drop empty columns'''
+    import pandas as pd
+    import data_moex
+    
+    tickers = pd.read_csv('./data/moex_tickers.csv')
+    tickers = tickers['SECID']
+    if sample != 0:
+            tickers = tickers.sample(sample,random_state=random_state)
+
+    df = pd.concat([data_moex.get_period(ticker) for ticker in tickers],axis = 1)
+
+
+    empty = df.loc[:,df.isna().all()].columns
+    df = df.drop(empty,axis=1)
+    #df = df.fillna(method = 'backfill',axis = 1)
+    return df

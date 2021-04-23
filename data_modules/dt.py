@@ -1,21 +1,4 @@
 ''' tested functions to work with local data'''
-def random_sample(sample=3,random_state = None):
-    '''load data into memory, drop empty columns'''
-    import pandas as pd
-    import data_moex
-    
-    tickers = pd.read_csv('./data/tickers.csv')
-    tickers = tickers['SECID']
-    if sample != 0:
-            tickers = tickers.sample(sample,random_state=random_state)
-
-    df = pd.concat([data_moex.get_period(ticker) for ticker in tickers],axis = 1)
-
-
-    empty = df.loc[:,df.isna().all()].columns
-    df = df.drop(empty,axis=1)
-    #df = df.fillna(method = 'backfill',axis = 1)
-    return df
 
 def impute(df):
     '''try different approaches'''
@@ -54,12 +37,17 @@ def import_tickers():
 
 def portfolio():
     '''
+    USD/RUB rate adjuctment
+    RUB assets vs USD assets
     portfolio.xls to price timeseries
     '''
     import pandas as pd
     from data_modules import data_moex as dtm
     tickers = import_tickers()
     df = pd.concat([dtm.get_candles(ticker,cut='close')[ticker] for ticker in tickers.columns],axis = 1) # produce dataframe with tickers as col labels and 'close' price.
-
+    print('USD is set to fixed rate 77.1; need to implement')
+    usd = 77.1
+    for c in ['TIPO','TECH']:
+        df[c] *=usd    
     df['PF'] = df.dot(tickers.iloc[0])
     return df

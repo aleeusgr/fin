@@ -11,11 +11,11 @@ import pandas as pd
 '''----// General input variables //----'''
 
 company_ticker = 'MSFT'
-market_risk_premium = 0.059
+market_risk_premium = 0.06 #0.059
 debt_return = 0.01
 long_term_growth = 0.01
 tax_rate = 0.3
-iterations = 1000
+iterations = 100
 
 '''----// Get financial information from yahoo finance //----'''
 
