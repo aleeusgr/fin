@@ -2,6 +2,15 @@
 ## Remember to save pictures!!!
 ### Refactor:
 
+#IDEAS:
+# 1. match industry from comp_data and fa
+# 2. learn to parse edgar files?
+# 3. compute and display metrics: CAPE = price_current / MovingAverageEPS(period), ROCE = return on capital employed, 
+# 4. stock price: endogenous vs exogenous factors?? 
+# company classification: startup/incumbent.
+
+# endo =  ??
+# exo  = 
 *0.1: online data 
 moex interface: fetch ticker list, fetch data, load data from disk
 TODO:

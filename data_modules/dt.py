@@ -16,7 +16,7 @@ def impute(df):
 
 def outlier_sample(t = 'UCSS'):
     import pandas as pd
-    return pd.read_csv('./data/{}.csv'.format(t)).loc[:,'CLOSE']
+    return pd.read_csv('./local_data/{}.csv'.format(t)).loc[:,'CLOSE']
 
 
 def import_tickers():
@@ -24,7 +24,7 @@ def import_tickers():
     returns a list of tickers.
     '''
     import pandas as pd
-    df = pd.read_excel('./data/portfolio.xlsx')
+    df = pd.read_excel('./local_data/portfolio.xlsx')
     select = df.iloc[:1,3:13] # make adaptable??
     
     #FYI
