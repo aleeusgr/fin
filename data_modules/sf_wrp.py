@@ -1,4 +1,4 @@
-def key():
-    with open('./local_data/simfin') as f:
-        content = f.read().splitlines()
-    return content[0]
+
+def init_sf()
+    sf.set_api_key(api_key='free')
+    sf.set_data_dir('~/workshop/fin/local_data')
