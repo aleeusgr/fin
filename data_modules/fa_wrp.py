@@ -4,37 +4,25 @@ def read_key():
     with open('./local_data/fa') as f:
         content = f.read().splitlines()
     return content[0]
-
-def fetch_stock_data(ticker, api_key):
-    '''load and process data by ticker, price
-
-    '''
-    
-    stock_data = fa.stock_data(ticker, interval="3mo")
-    stock_data = stock_data.loc[:,'adjclose']
+def clean_data(df):
     import pandas as pd
-    df = stock_data
     df.index = pd.to_datetime(df.index)
-    df = df.fillna(method='pad')
-    df = pd.to_numeric(df,errors='coerce') 
-    return df 
-
-def fetch_data(ticker, api_key):
-    '''load and process data by ticker, temp
-
-    '''
-    
-    key_metrics = fa.key_metrics(ticker, api_key, period="quarter") #period can be 'annual'
-    key_metrics = key_metrics.transpose()
-    key_metrics = key_metrics.drop(['period','dividendYield', 'interestCoverage','tangibleAssetValue'], axis=1)# period should be processed as a categorical feature
-    import pandas as pd
-    df = key_metrics
-    df.index = pd.to_datetime(df.index)
-    df = df.fillna(method='pad')
-    #df = df.dropna()
     for c in df.columns:
         df[c] = pd.to_numeric(df[c],errors='coerce') 
+    df = df.drop(columns = df.columns[df.isna().sum() > (len(df)/2)])
+    #df = df.fillna(method='pad')
+    df = df.dropna(axis = 1)
     return df 
+
+def offset_correlation(df, offset = -1):
+    '''broken'''
+    corr = {}
+    for c in df.columns:
+        corr[c] = df['adjclose'].corr(df[c].shift(offset))
+
+    return pd.Series(corr)
+
+
 ## Show the available companies
 #companies = fa.available_companies(api_key)
 #
