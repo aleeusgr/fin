@@ -1,10 +1,25 @@
 import FundamentalAnalysis as fa
 
-def key():
+def read_key():
     with open('./local_data/fa') as f:
         content = f.read().splitlines()
     return content[0]
-def fetch(ticker, api_key):
+
+def fetch_stock_data(ticker, api_key):
+    '''load and process data by ticker, price
+
+    '''
+    
+    stock_data = fa.stock_data(ticker, interval="3mo")
+    stock_data = stock_data.loc[:,'adjclose']
+    import pandas as pd
+    df = stock_data
+    df.index = pd.to_datetime(df.index)
+    df = df.fillna(method='pad')
+    df = pd.to_numeric(df,errors='coerce') 
+    return df 
+
+def fetch_data(ticker, api_key):
     '''load and process data by ticker, temp
 
     '''
@@ -12,14 +27,12 @@ def fetch(ticker, api_key):
     key_metrics = fa.key_metrics(ticker, api_key, period="quarter") #period can be 'annual'
     key_metrics = key_metrics.transpose()
     key_metrics = key_metrics.drop(['period','dividendYield', 'interestCoverage','tangibleAssetValue'], axis=1)# period should be processed as a categorical feature
-    stock_data = fa.stock_data(ticker, interval="3mo")
-    stock_data = stock_data.loc[:,'adjclose']
     import pandas as pd
-    for df in [stock_data,key_metrics]:
-        df.index = pd.to_datetime(df.index)
-        df = df.fillna(method='pad')
-    df = pd.concat((stock_data.iloc[::-1],key_metrics),axis=1).dropna()
-    for c in df:
+    df = key_metrics
+    df.index = pd.to_datetime(df.index)
+    df = df.fillna(method='pad')
+    #df = df.dropna()
+    for c in df.columns:
         df[c] = pd.to_numeric(df[c],errors='coerce') 
     return df 
 ## Show the available companies
