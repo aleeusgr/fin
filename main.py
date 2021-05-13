@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from timeit import default_timer as timer
 from util import tests
-#from compdata import comp_data as dmd
-#import simfin as sf
+from compdata import comp_data as dmd
 import FundamentalAnalysis as fa
 from data_modules import fa_wrp
 api_key = fa_wrp.read_key()
@@ -12,31 +11,24 @@ api_key = fa_wrp.read_key()
 #import tds_dmdr
 #tests.portfolio_test()
 
-to_value = ['AAPL','GOOG','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY']
-#ticker = to_value[0]
-ticker = 'FDGRX'
+equity = ['AAPL','GOOG','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY']
+funds = [ 'FDGRX',]
+ticker = equity[0]
 
-hxz = pd.read_csv('./local_data/q5_factors_quarterly_2020.csv')
-stock_data = fa_wrp.price(ticker)
-returns = stock_data.pct_change()
-#def align_dates(
-returns = returns.iloc[1:-2]
-factors = hxz.iloc[len(hxz)-len(returns):]
-y = returns.to_numpy()
-x = factors.iloc[:,2:].to_numpy()
+def combine(ticker):
+    import pandas as pd
+    cols = {
+    'enterprise_value':('stockPrice'),
+    'key' : ('peRatio','pbRatio','capexToRevenue','debtToEquity'),
+    'financial': ('netProfitMargin','returnOnCapitalEmployed'),
+    'growth': ('operatingCashFlowGrowth','rdexpenseGrowth',''),
+    }
+    data = fa_wrp.fetch_all(ticker)
+    df = pd.DataFrame()
+    for t in cols:
+        df = pd.concat((df,data[t].loc[:,cols[t]]),axis=1)
+    return df
 
-import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
 
-x = scaler.fit_transform(x)
-
-model = LinearRegression()
-
-model.fit(x,y)
-
-plt.plot(y)
-plt.plot(model.predict(x))
-plt.show()
-
+data = fa_wrp.fetch_all(ticker)
+#data = combine(ticker)

@@ -22,24 +22,27 @@ def clean_data(df):
     df = df.dropna(axis = 1)
     return df.iloc[::-1]
 
-class Company:
-    def __init__(self,ticker):
-        self.ticker = ticker        
-        self.data = {} 
     
-    def fetch(self,period = 'quarter'):
-        '''period is set to be 'quarter' in the code, change'''
-        self.data = {
-        'profile' : fa.profile(self.ticker, api_key),
-        #'entreprise_value' : fa.enterprise(self.ticker, api_key),
+def fetch_all(ticker,period = 'quarter'):
+    '''period is set to be 'quarter' in the code, change'''
+    api_key = read_key()
+    import pandas as pd
+    #df = pd.DataFrame()
+    data = {
+    #'profile' : fa.profile(ticker, api_key),
+    'enterprise_value' : fa.enterprise(ticker, api_key),
 
-        #'balance_sheet_quarterly' : fa.balance_sheet_statement(self.ticker, api_key, period="quarter"),
-        #'income_statement_quarterly' : fa.income_statement(self.ticker, api_key, period="quarter"),
-        #'cash_flow_statement_quarterly' : fa.cash_flow_statement(self.ticker, api_key, period="quarter"),
-        #'key_metrics_quarterly' : fa.key_metrics(self.ticker, api_key, period="quarter"),
-        #'financial_ratios_quarterly' : fa.financial_ratios(self.ticker, api_key, period="quarter"),
-        #'growth_quarterly ': fa.financial_statement_growth(self.ticker, api_key, period="quarter")
-        }
+    #'balance_sheet' : fa.balance_sheet_statement(ticker, api_key, period),
+    #'income_statement' : fa.income_statement(ticker, api_key, period),
+    #'cash_flow_statement' : fa.cash_flow_statement(ticker, api_key, period),
+    'key' : fa.key_metrics(ticker, api_key, period),
+    'financial' : fa.financial_ratios(ticker, api_key, period),
+    'growth': fa.financial_statement_growth(ticker, api_key, period)
+    }
+    for i in data.keys():
+        data[i] = clean_data(data[i])
+        #df = pd.concat((df,data[i]),axis=1)
+    return data
 
 def offset_correlation(df, offset = -1):
     '''broken'''
