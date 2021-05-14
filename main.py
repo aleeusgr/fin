@@ -8,27 +8,24 @@ import FundamentalAnalysis as fa
 from data_modules import fa_wrp
 api_key = fa_wrp.read_key()
 #TODO: tinkoff_api!!!
-#import tds_dmdr
+
 #tests.portfolio_test()
 
 equity = ['AAPL','GOOG','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY']
 funds = [ 'FDGRX',]
 ticker = equity[0]
+#data = fa_wrp.fetch_all(ticker)
+#data = fa_wrp.combine(ticker)
 
-def combine(ticker):
-    import pandas as pd
-    cols = {
-    'enterprise_value':('stockPrice'),
-    'key' : ('peRatio','pbRatio','capexToRevenue','debtToEquity'),
-    'financial': ('netProfitMargin','returnOnCapitalEmployed'),
-    'growth': ('operatingCashFlowGrowth','rdexpenseGrowth',''),
-    }
-    data = fa_wrp.fetch_all(ticker)
-    df = pd.DataFrame()
-    for t in cols:
-        df = pd.concat((df,data[t].loc[:,cols[t]]),axis=1)
-    return df
+#compare = pd.DataFrame()
+#for t in equity:
+#    df = fa.financial_ratios(t, api_key, period = 'quarter' )
+#    df = df.loc[('netProfitMargin','returnOnCapitalEmployed')]
+#    # rename rows  
+#    df = fa_wrp.clean_data(df)
+#    compare = pd.concat((compare, df), axis=1)
+#
 
 
-data = fa_wrp.fetch_all(ticker)
-#data = combine(ticker)
+#data = fetch(ticker,('key','financial','growth'))
+data = fa_wrp.combine(ticker)

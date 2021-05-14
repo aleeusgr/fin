@@ -22,28 +22,49 @@ def clean_data(df):
     df = df.dropna(axis = 1)
     return df.iloc[::-1]
 
-    
-def fetch_all(ticker,period = 'quarter'):
-    '''period is set to be 'quarter' in the code, change'''
+
+def fetch(ticker, parts, period = 'quarter'  ):
+    '''
+    parts should be tuple of str.
+    '''
     api_key = read_key()
     import pandas as pd
-    #df = pd.DataFrame()
-    data = {
-    #'profile' : fa.profile(ticker, api_key),
-    'enterprise_value' : fa.enterprise(ticker, api_key),
-
-    #'balance_sheet' : fa.balance_sheet_statement(ticker, api_key, period),
-    #'income_statement' : fa.income_statement(ticker, api_key, period),
-    #'cash_flow_statement' : fa.cash_flow_statement(ticker, api_key, period),
-    'key' : fa.key_metrics(ticker, api_key, period),
-    'financial' : fa.financial_ratios(ticker, api_key, period),
-    'growth': fa.financial_statement_growth(ticker, api_key, period)
+    methods = {
+    #these might not accept period
+    'profile' : fa.profile,
+    'enterprise_value' : fa.enterprise,
+    #these should not glitch
+    'balance_sheet' : fa.balance_sheet_statement,
+    'income_statement' : fa.income_statement,
+    'cash_flow_statement' : fa.cash_flow_statement,
+    'key' : fa.key_metrics,
+    'financial' : fa.financial_ratios,
+    'growth': fa.financial_statement_growth
     }
-    for i in data.keys():
-        data[i] = clean_data(data[i])
-        #df = pd.concat((df,data[i]),axis=1)
+    data = {}
+    for m in parts:
+        data[m] = clean_data(methods[m](ticker, api_key, period))
     return data
-
+    
+def combine(ticker,period = 'quarter'):
+    '''load and filter out metrics for a single company
+    depends on fetch_all() and price()
+    
+    ADD: capex?
+    '''
+    import pandas as pd
+    select = {
+    #'enterprise_value':('stockPrice'),
+    'key' : ('peRatio','pbRatio','capexToRevenue','debtToEquity'),
+    'financial': ('netProfitMargin','returnOnCapitalEmployed'),
+    'growth': ('operatingCashFlowGrowth','rdexpenseGrowth',),
+    }
+    data = fetch(ticker,list(select.keys()),period)
+    df = pd.DataFrame()
+    for t in select:
+        df = pd.concat((df,data[t].loc[:,select[t]]),axis=1)
+    df = pd.concat((df,price(ticker)),axis=1) #add price
+    return  df
 def offset_correlation(df, offset = -1):
     '''broken'''
     corr = {}
@@ -102,9 +123,3 @@ def offset_correlation(df, offset = -1):
 ## Download detailed stock data
 #stock_data_detailed = fa.stock_data_detailed(ticker, api_key, begin="2000-01-01", end="2020-01-01")
 
-#roe = key_metrics_annually.loc['roe']
-#pe_ratio = key_metrics_annually.loc['peRatio']
-#pb_ratio = key_metrics_annually.loc['pbRatio']
-#ROCE = financial_ratios_annually.loc['returnOnCapitalEmployed']
-#pfcf = financial_ratios_annually.loc['freeCashFlowPerShare']
-#industry = profile.loc['industry'][0]
