@@ -22,7 +22,6 @@ def clean_data(df):
     df = df.dropna(axis = 1)
     return df.iloc[::-1]
 
-
 def fetch(ticker, parts, period = 'quarter'  ):
     '''
     parts should be tuple of str.
