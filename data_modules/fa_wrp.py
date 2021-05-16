@@ -64,13 +64,23 @@ def combine(ticker,period = 'quarter'):
         df = pd.concat((df,data[t].loc[:,select[t]]),axis=1)
     df = pd.concat((df,price(ticker)),axis=1) #add price
     return  df
-def offset_correlation(df, offset = -1):
-    '''broken'''
-    corr = {}
-    for c in df.columns:
-        corr[c] = df['adjclose'].corr(df[c].shift(offset))
 
-    return pd.Series(corr)
+def compare(equities):
+    '''Gave 503 error'''
+    compare = pd.DataFrame()
+
+    for t in equities:
+        print(t)
+        try:
+            df = fa_wrp.fetch(t,('financial',))['financial']
+            df = df.loc[:,('netProfitMargin','returnOnCapitalEmployed')]
+            df = df.rename(columns = {'netProfitMargin': 'nPM {}'.format(t),'returnOnCapitalEmployed': 'ROCE {}'.format(t)})
+            compare = pd.concat((compare, df), axis=0)
+            print('ok')
+            #time.sleep(0.5)
+        except:
+            print('error')
+    return compare
 
 
 ## Show the available companies
