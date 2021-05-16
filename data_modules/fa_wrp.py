@@ -49,7 +49,6 @@ def combine(ticker,period = 'quarter'):
     '''load and filter out metrics for a single company
     depends on fetch_all() and price()
     
-    ADD: capex?
     '''
     import pandas as pd
     select = {

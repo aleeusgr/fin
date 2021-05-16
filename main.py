@@ -19,3 +19,12 @@ funds = [ 'FDGRX',]
 ticker = equity[1]
 #data = fa_wrp.combine(ticker)
 
+metrics = ('peRatio','pbRatio','capexToRevenue','debtToEquity', 'netProfitMargin','returnOnCapitalEmployed','operatingCashFlowGrowth','rdexpenseGrowth',)
+data = {
+'fin' : si.get_financials, #includes balance sheet,income, cash flow
+'analyst_info': si.get_analysts_info,
+'balance': si.get_balance_sheet,
+'cash flow':si.get_cash_flow,
+'price'   : si.get_data,
+'summary' : si.get_quote_data,
+}
