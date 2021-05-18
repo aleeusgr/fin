@@ -8,6 +8,7 @@ from compdata import comp_data as dmd
 import FundamentalAnalysis as fa
 from data_modules import fa_wrp
 from yahoo_fin import stock_info as si
+from data_modules import yhf_wrp as yhf
 
 api_key = fa_wrp.read_key()
 #TODO: tinkoff_api!!!
@@ -19,12 +20,10 @@ funds = [ 'FDGRX',]
 ticker = equity[1]
 #data = fa_wrp.combine(ticker)
 
-metrics = ('peRatio','pbRatio','capexToRevenue','debtToEquity', 'netProfitMargin','returnOnCapitalEmployed','operatingCashFlowGrowth','rdexpenseGrowth',)
-data = {
-'fin' : si.get_financials, #includes balance sheet,income, cash flow
-'analyst_info': si.get_analysts_info,
-'balance': si.get_balance_sheet,
-'cash flow':si.get_cash_flow,
-'price'   : si.get_data,
-'summary' : si.get_quote_data,
-}
+#profitability
+ROCE = yhf.ROCE(ticker)
+
+#financing
+
+#momentum
+q_rev_earn = yhf.fetch(ticker,'earnings')['quarterly_revenue_earnings']
