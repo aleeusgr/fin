@@ -14,6 +14,7 @@ def fetch(ticker, what = 'price'):
     'earn_ist': si.get_earnings_history,#crap formatting
     }
     return data[what](ticker)
+
 def per(p = 'q'):
     '''expand period '''
     period = {'y': 'yearly', 'q':'quarterly'}
@@ -26,7 +27,6 @@ def doc(p = 'q', d = 'is'):
     document = {'is':'income_statement', 'cf':'cash_flow', 'bs':'balance_sheet'}
     return '{}_{}'.format(per(p),document[d])
 
-
 def pe_pb(ticker):
     d = fetch(ticker,'summary')
     return (d['trailingPE'], d['priceToBook'])
@@ -37,13 +37,19 @@ def CE(ticker, period = 'q'):
     CE = fin[doc(period,'bs')].loc['totalAssets'] - fin[doc(period,'bs')].loc['totalLiab']
     return CE
 
-def ROCE(ticker,period = 'q'):
+def asset_price(ticker,p = 'q'):
+    '''price: market cap to capital employed'''
+    cap = fetch(ticker, 'summary')['marketCap']
+    ce = CE(ticker,p).iloc[-1]
+    return cap/ce
+
+def ROCE(ticker,p = 'q'):
     '''profitability: return on capital emploed'''
     fin = fetch(ticker,'fin')
-    ebit = fin[doc(period,'is')].loc['ebit']
-    CE = fin[doc(period,'bs')].loc['totalAssets'] - fin[doc(period,'bs')].loc['totalLiab']
+    ebit = fin[doc(p,'is')].loc['ebit']
+    ce = CE(ticker, p)
 
-    return ebit/CE
+    return ebit/ce
 
 def net_profit_margin(ticker, p = 'q'):
     '''profitability'''
@@ -57,18 +63,12 @@ def debt_to_equity(ticker, p = 'q'):
     bs = fin[doc(p,'bs')]
     return bs.loc['totalLiab'] / (bs.loc['totalAssets'] - bs.loc['totalLiab'])
 
-def asset_price(ticker,p = 'q'):
-    '''price: market cap to capital employed'''
-    cap = fetch(ticker, 'summary')['marketCap']
-    ce = CE(ticker,p).iloc[-1]
-    return cap/ce
-
 def RnD(ticker, p = 'q'):
     '''investemnt:R&D
     should I normalize?
     '''
     f = fetch(ticker,'fin')[doc(p,'is')]
-    return f.loc['otherOperatingExpenses']
+    return f.loc['researchDevelopment']
 
 def investment(ticker, p = 'q'):
     fin = fetch(ticker, 'fin')[doc(p,'cf')]

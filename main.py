@@ -21,17 +21,26 @@ ticker = equity[1]
 #data = fa_wrp.combine(ticker)
 fin = yhf.fetch(ticker, 'fin')
 
-##profitability
-#ROCE = yhf.ROCE(ticker)
-#npm = yhf.net_profit_margin(ticker)
-##financing
-#de = yhf.debt_to_equity(ticker)
-## price
-#pe,pb = yhf.pe_pb(ticker)
-#ap = yhf.asset_price(ticker)
-#investment
-#rnd = yhf.RnD(ticker)
-#inv = yhf.investment(ticker)
-
 #momentum
 
+def compare(tickers=(),metric ='ROCE',  p ='q'):
+    metrics = {
+    'ROCE' : yhf.ROCE, 
+    'ap'   : yhf.asset_price,
+    'npm'  : yhf.net_profit_margin,
+    'd/e'  : yhf.debt_to_equity,
+    'rnd'  : yhf.RnD,
+    'inv'  : yhf.investment,
+
+    }
+    df = pd.DataFrame()
+    for t in tickers:
+        d = metrics[metric](t,p)
+        # adjust dates
+        d.reindex(pd.PeriodIndex(d.index, freq = 'Q'))
+        print(d)
+        # rename columns, 
+        df = pd.concat((df,d),axis=1) 
+    return df
+
+x = compare(equity[:3])
