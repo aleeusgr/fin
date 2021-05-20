@@ -19,11 +19,19 @@ equity = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RU
 funds = [ 'FDGRX',]
 ticker = equity[1]
 #data = fa_wrp.combine(ticker)
+fin = yhf.fetch(ticker, 'fin')
 
-#profitability
-ROCE = yhf.ROCE(ticker)
-
-#financing
+##profitability
+#ROCE = yhf.ROCE(ticker)
+#npm = yhf.net_profit_margin(ticker)
+##financing
+#de = yhf.debt_to_equity(ticker)
+## price
+#pe,pb = yhf.pe_pb(ticker)
+#ap = yhf.asset_price(ticker)
+#investment
+#rnd = yhf.RnD(ticker)
+#inv = yhf.investment(ticker)
 
 #momentum
-q_rev_earn = yhf.fetch(ticker,'earnings')['quarterly_revenue_earnings']
+
