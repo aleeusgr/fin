@@ -20,14 +20,14 @@ def per(p = 'q'):
     period = {'y': 'yearly', 'q':'quarterly'}
     return period[p]
 
-def doc(p = 'q', d = 'is'):
+def doc(d = 'is'):
     '''Utility:
-    p for period, d for document, 
-    returns proper string for yhf.fetch(t,'fin')''' 
+    expand short into full document
+    returns proper string for the result of yhf.fetch(t,'fin')''' 
     document = {'is':'income_statement', 'cf':'cash_flow', 'bs':'balance_sheet'}
     return '{}_{}'.format(per(p),document[d])
 
-def pe_pb(ticker):
+def pe_pb(ticker, p = 'q'):
     d = fetch(ticker,'summary')
     return (d['trailingPE'], d['priceToBook'])
 
@@ -77,6 +77,32 @@ def investment(ticker, p = 'q'):
 def revenue_earnings(ticker, p='q'):
     data = fetch(ticker,'earnings')
     return data['{}_revenue_earnings'.format(per(p))]
+
+def compare(tickers=(),metric ='ROCE',  p ='q'):
+    '''
+    unfinished: date adjustment returns NaNs everywhere
+    columns need to be renamed 
+    generate a slice on one metric.
+    '''
+    metrics = { # this can be made into submodules by metric type: growth, risk, cash flow.
+    'ROCE' : yhf.ROCE,              # 'efficiency' with caveats.
+    'ap'   : yhf.asset_price,       # from SwedishInvestor YouTube, 5 takeways from which book?
+    'npm'  : yhf.net_profit_margin, # Market Niche, tight or open?
+    'd/e'  : yhf.debt_to_equity,    # Risk
+    'rnd'  : yhf.RnD,               # Growth
+    'inv'  : yhf.investment,        # Growth
+                                    # Momentum
+
+    }
+    df = pd.DataFrame()
+    for t in tickers:
+        d = metrics[metric](t,p)
+        # adjust dates
+        d.reindex(pd.PeriodIndex(d.index, freq = 'Q'))
+        print(d)
+        # rename columns, 
+        df = pd.concat((df,d),axis=1) 
+    return df
 
 def surpriseEPS(t):
     # EPS over expectations 
