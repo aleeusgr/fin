@@ -24,13 +24,17 @@ fin = yhf.fetch(ticker, 'fin')
 #momentum
 
 def compare(tickers=(),metric ='ROCE',  p ='q'):
-    metrics = {
-    'ROCE' : yhf.ROCE, 
-    'ap'   : yhf.asset_price,
-    'npm'  : yhf.net_profit_margin,
-    'd/e'  : yhf.debt_to_equity,
-    'rnd'  : yhf.RnD,
-    'inv'  : yhf.investment,
+    '''
+    generate a slice on one metric.
+    '''
+    metrics = { # this can be made into submodules by metric type: growth, risk, cash flow.
+    'ROCE' : yhf.ROCE,              # 'efficiency' with caveats.
+    'ap'   : yhf.asset_price,       # from SwedishInvestor YouTube, 5 takeways from which book?
+    'npm'  : yhf.net_profit_margin, # Market Niche, tight or open?
+    'd/e'  : yhf.debt_to_equity,    # Risk
+    'rnd'  : yhf.RnD,               # Growth
+    'inv'  : yhf.investment,        # Growth
+                                    # Momentum
 
     }
     df = pd.DataFrame()
@@ -44,3 +48,4 @@ def compare(tickers=(),metric ='ROCE',  p ='q'):
     return df
 
 x = compare(equity[:3])
+
