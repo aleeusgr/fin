@@ -33,7 +33,7 @@ def portfolio_test():
     plt.show()
     #
 
-def metrics_test(verbose = False):
+def metrics_test(period = 'q', verbose = False):
     from util.util import compare 
     from data_modules import yhf_wrp as yhf
     metrics = ('ROCE' , 'ap' , 'npm' , 'd/e' ,'rnd' , 'inv' , 'earn') 
@@ -45,7 +45,7 @@ def metrics_test(verbose = False):
     for m in metrics:
         try:
             print('function %s'%m)
-            x = compare(equity[:amount_of_tickers], metric = m)
+            x = compare(equity[:amount_of_tickers], metric = m, p = period)
             print(x)
         except:
             errors += m,

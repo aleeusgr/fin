@@ -12,10 +12,10 @@ from util.util import compare
 #TODO: tinkoff_api!!!
 
 #tests.portfolio_test()
-#tests.metrics_test()
+#tests.metrics_test(period = 'y')
 
 equity = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY', 'GOOG',]
 funds = [ 'FDGRX',]
 ticker = equity[1]
 
-x = compare(equity[:2],'earn')
+#x = compare(equity[:2],'earn')
