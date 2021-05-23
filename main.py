@@ -19,6 +19,6 @@ equity = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RU
 funds = [ 'FDGRX',]
 ticker = equity[1]
 #fin = yhf.fetch(ticker, 'fin')
-x = yhf.compare(equity[:5])
-#x = yhf.ROCE(ticker)
+
+#x = yhf.(ticker)
 

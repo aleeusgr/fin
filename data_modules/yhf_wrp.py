@@ -40,7 +40,7 @@ def CE(ticker, period = 'q'):
 def asset_price(ticker,p = 'q'):
     '''price: market cap to capital employed'''
     cap = fetch(ticker, 'summary')['marketCap']
-    ce = CE(ticker,p).iloc[-1]
+    ce = CE(ticker,p).iloc[-1] # for last value of CE
     return cap/ce
 
 def ROCE(ticker,p = 'q'):
@@ -54,7 +54,7 @@ def ROCE(ticker,p = 'q'):
 def net_profit_margin(ticker, p = 'q'):
     '''profitability'''
     fin = fetch(ticker, 'fin')
-    fin = fin[yhf.doc(p,'is')]
+    fin = fin[doc(p,'is')]
     return fin.loc['netIncome'] / fin.loc['totalRevenue']
 
 def debt_to_equity(ticker, p = 'q'):
@@ -80,11 +80,10 @@ def revenue_earnings(ticker, p='q'):
 
 def compare(tickers=(),metric ='ROCE',  p ='q'):
     '''
-    unfinished: date adjustment returns NaNs everywhere
-    columns need to be renamed 
-    generate a slice on one metric.
+    generates a slice on one metric.
+    p = period ('q' or 'y')
+    ap and revenue_earnings need debugging
     '''
-    # debug all
     metrics = { # this can be made into submodules by metric type: growth, risk, cash flow.
     'ROCE' : ROCE,              # 'efficiency' with caveats.
     'ap'   : asset_price,       # from SwedishInvestor YouTube, 5 takeways from which book?
@@ -92,7 +91,8 @@ def compare(tickers=(),metric ='ROCE',  p ='q'):
     'd/e'  : debt_to_equity,    # Risk
     'rnd'  : RnD,               # Growth
     'inv'  : investment,        # Growth
-    'earn' : revenue_earnings,                                   # Momentum
+    'earn' : revenue_earnings,  # Momentum
+    'pepb' : pe_pb,             # needs testing
 
     }
     df = {}

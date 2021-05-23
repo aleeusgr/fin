@@ -33,3 +33,19 @@ def portfolio_test():
     plt.show()
     #
 
+def metrics_test(verbose = False):
+    
+    metrics = ('ROCE' , 'ap' , 'npm' , 'd/e' ,'rnd' , 'inv' , 'earn') 
+    equity = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY', 'GOOG',]
+    amount_of_tickers = 2
+    if verbose:
+        amount_of_tickers = len(equity)
+    errors = ()
+    for m in metrics:
+        try:
+            print('function %s'%m)
+            x = yhf.compare(equity[:amount_of_tickers], metric = m)
+            print(x)
+        except:
+            errors += m,
+    print('errors in %s'%[e for e in errors])
