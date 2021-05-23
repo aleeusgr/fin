@@ -3,14 +3,9 @@
 ### Refactor:
 
 #IDEAS:
-# 1. match industry from comp_data and fa
-# 2. learn to parse edgar files?
 # 3. compute and display metrics: CAPE = price_current / MovingAverageEPS(period), ROCE = return on capital employed, 
 # 4. stock price: endogenous vs exogenous factors?? 
-# company classification: startup/incumbent.
 
-# endo =  ??
-# exo  = 
 *0.1: online data 
 moex interface: fetch ticker list, fetch data, load data from disk
 TODO:
@@ -35,17 +30,7 @@ find frameworks
 ARIMA  (autoregression)
 state space models  
 
-*0.: pypfopt
-refactor
-choose optimiser
-choose risk model
-experiment with horizon
-Read the notebooks
-adjust for $
-build backtesting procedures.
-out of sample returns?? (another name for test set performance)
 
-valuation: timeseries to compare to price
 ML pipe ideas:
-train_y(t)=pd.Series, price, train_x=[t1,t2...tn], t = ticker
-train_y(t) = price, train_x = f(v,g,r), value, growth, risk
+train_y(t)=pd.Series, price, train_x=[t1,t2...tn], t = ticker // factor analysis
+train_y(t) = price, train_x = f(v,g,r), value, growth, risk  // systems model
