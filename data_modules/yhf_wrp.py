@@ -20,7 +20,7 @@ def per(p = 'q'):
     period = {'y': 'yearly', 'q':'quarterly'}
     return period[p]
 
-def doc(d = 'is'):
+def doc(p = 'q', d = 'is'):
     '''Utility:
     expand short into full document
     returns proper string for the result of yhf.fetch(t,'fin')''' 
@@ -84,25 +84,26 @@ def compare(tickers=(),metric ='ROCE',  p ='q'):
     columns need to be renamed 
     generate a slice on one metric.
     '''
+    # debug all
     metrics = { # this can be made into submodules by metric type: growth, risk, cash flow.
-    'ROCE' : yhf.ROCE,              # 'efficiency' with caveats.
-    'ap'   : yhf.asset_price,       # from SwedishInvestor YouTube, 5 takeways from which book?
-    'npm'  : yhf.net_profit_margin, # Market Niche, tight or open?
-    'd/e'  : yhf.debt_to_equity,    # Risk
-    'rnd'  : yhf.RnD,               # Growth
-    'inv'  : yhf.investment,        # Growth
-                                    # Momentum
+    'ROCE' : ROCE,              # 'efficiency' with caveats.
+    'ap'   : asset_price,       # from SwedishInvestor YouTube, 5 takeways from which book?
+    'npm'  : net_profit_margin, # Market Niche, tight or open?
+    'd/e'  : debt_to_equity,    # Risk
+    'rnd'  : RnD,               # Growth
+    'inv'  : investment,        # Growth
+    'earn' : revenue_earnings,                                   # Momentum
 
     }
-    df = pd.DataFrame()
+    df = {}
     for t in tickers:
         d = metrics[metric](t,p)
         # adjust dates
-        d.reindex(pd.PeriodIndex(d.index, freq = 'Q'))
-        print(d)
+        d.index = pd.PeriodIndex(d.index, freq = 'Q') #
         # rename columns, 
-        df = pd.concat((df,d),axis=1) 
-    return df
+        df[t] = d
+        #df = pd.concat((df,d),axis=1) 
+    return pd.DataFrame.from_dict(df)
 
 def surpriseEPS(t):
     # EPS over expectations 

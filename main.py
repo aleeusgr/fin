@@ -18,10 +18,7 @@ api_key = fa_wrp.read_key()
 equity = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY', 'GOOG',]
 funds = [ 'FDGRX',]
 ticker = equity[1]
-#data = fa_wrp.combine(ticker)
-fin = yhf.fetch(ticker, 'fin')
-
-#momentum
-
-
+#fin = yhf.fetch(ticker, 'fin')
+x = yhf.compare(equity[:5])
+#x = yhf.ROCE(ticker)
 
