@@ -35,6 +35,7 @@ def portfolio_test():
 
 def metrics_test(verbose = False):
     
+    from data_modules import yhf_wrp as yhf
     metrics = ('ROCE' , 'ap' , 'npm' , 'd/e' ,'rnd' , 'inv' , 'earn') 
     equity = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY', 'GOOG',]
     amount_of_tickers = 2
