@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from timeit import default_timer as timer
 from util import tests
-from compdata import comp_data as dmd
-from yahoo_fin import stock_info as si
-from data_modules import yhf_wrp as yhf
+#from compdata import comp_data as dmd
+#from yahoo_fin import stock_info as si
+#from data_modules import yhf_wrp as yhf
 from util.util import compare
 
 #TODO: tinkoff_api!!!
@@ -14,8 +14,13 @@ from util.util import compare
 #tests.portfolio_test()
 #tests.metrics_test(period = 'y')
 
-equity = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY', 'GOOG',]
+rand = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY', 'GOOG',]
+dorsey = ['FB', 'SMAR', 'WIX' , 'EBAY' , 'PYPL' , 'UPWK' , 'GOOG' , 'DESP']
 funds = [ 'FDGRX',]
-ticker = equity[1]
+ticker = rand[1]
 
-#x = compare(equity[:2],'earn')
+e, npm  = (compare(dorsey.remove('DESP') , m) for m in ('earn', 'npm'))
+
+# get company's industry
+# get list of companies by industry?
+# get top performing hedge funds? on a variable time horizon
