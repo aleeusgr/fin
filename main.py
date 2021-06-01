@@ -14,13 +14,14 @@ from util.util import compare
 #tests.portfolio_test()
 #tests.metrics_test(period = 'y')
 
-rand = ['AAPL','AMZN','KO','JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY', 'GOOG',]
+rand = ['AAPL' , 'AMZN' , 'KO' , 'BABA' , 'JNJ','CL', 'BUD' ,'MSFT', 'HD', 'WIX', 'UPWK', 'RUN', 'ROKU', 'PYPL', 'NVDA', 'FB', 'DESP', 'NET', 'ALXN', 'EBAY', 'GOOG',]
 dorsey = ['FB', 'SMAR', 'WIX' , 'EBAY' , 'PYPL' , 'UPWK' , 'GOOG' , 'DESP']
+auto = ['VWAGY' , 'RYCEY']
 funds = [ 'FDGRX',]
 ticker = rand[1]
 
-e, npm  = (compare(dorsey.remove('DESP') , m) for m in ('earn', 'npm'))
+# e, npm  = (compare(dorsey.remove('DESP') , m) for m in ('earn', 'npm'))
 
 # get company's industry
 # get list of companies by industry?
-# get top performing hedge funds? on a variable time horizon
+#'earn' get top performing hedge funds? on a variable time horizon

@@ -51,7 +51,26 @@ def metrics_test(period = 'q', verbose = False):
             errors += m,
     print('errors in %s'%[e for e in errors])
 
-def invest(df,amount = 60000):
+def lucas_tree_test()
+
+    from models import lucas as l
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    print('function has greek latters in code')
+    for β in (.95, 0.98):
+        tree = l.LucasTree(β=β)
+        grid = tree.grid
+        price_vals = l.solve_model(tree)
+        label = rf'$\beta = {β}$'
+        ax.plot(grid, price_vals, lw=2, alpha=0.7, label=label)
+
+    ax.legend(loc='upper left')
+    ax.set(xlabel='$y$', ylabel='price', xlim=(min(grid), max(grid)))
+    plt.show()
+
+def HRP_test(df,amount = 60000):
+    '''needs reworking, load df: price by ticker'''
     from pypfopt.expected_returns import mean_historical_return
     from pypfopt.risk_models import CovarianceShrinkage
 
