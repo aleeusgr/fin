@@ -23,8 +23,9 @@ def portfolio_test():
     pf = dt.portfolio() 
     change = pf.pct_change()
 
-    he.heatmap_color(pf.corr().to_numpy(),pf.columns,pf.columns)
-    plt.show()
+    #this was broken as of 13.09.21
+    #he.heatmap_color(pf.corr().to_numpy(),pf.columns,pf.columns)
+    #plt.show()
 
     change['PF'].plot()
     plt.show()
@@ -51,7 +52,7 @@ def metrics_test(period = 'q', verbose = False):
             errors += m,
     print('errors in %s'%[e for e in errors])
 
-def lucas_tree_test()
+def lucas_tree_test():
 
     from models import lucas as l
     import matplotlib.pyplot as plt
