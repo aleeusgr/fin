@@ -3,8 +3,7 @@
 ### Refactor:
 
 #IDEAS:
-# 3. compute and display metrics: CAPE = price_current / MovingAverageEPS(period), ROCE = return on capital employed, 
-# 4. stock price: endogenous vs exogenous factors?? 
+# 4. stock price: core and sentiment; see shefrin.
 
 *0.1: online data 
 moex interface: fetch ticker list, fetch data, load data from disk
