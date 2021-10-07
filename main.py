@@ -1,55 +1,58 @@
-# Binomial distribution.
-import os
-import numpy as np
-import scipy.stats as st
+# P(j, strong)=P(strong|j)P(j), whereP(j)=P(j|strong)P(strong)+P(j|weak)P(weak)
+from scipy.stats import binom
 import matplotlib.pyplot as plt
-import pandas as pd
-from timeit import default_timer as timer # use @ to measure function runtime
+import numpy as np
 
-def draw(whites = 3, size = 6):
-    '''Run a grether experiment draw
-    returns a tuple of outcomes
-    whites - number of whites in a box
-    size - size of the box
+def grether_disribution(P_is_strong = 4/6,n_whites = 4, length = 6):
+    '''Generate custom distribution for modified structure of Grether experiment
+    BAAP ch4
+    P_is_strong - chances in first phase
+    n_whites - number of white choices in stronge regime 
+    length - size of the distribution
 
+    returns Pj, Pstrong, Pweak
     '''
-    draw = ()
-    for i in range(size): 
-        draw += np.random.binomial(1,whites/size),
-    return draw
+    P_is_weak = 1 - P_is_strong
 
-def sample(whites = 3, size = 6, runs = 100):
-    '''
-    generates probability distribution for given conditions 
-    rename runs -> resolution
+    p_strong = n_whites/length
+    p_weak = 0.5
 
-    '''
-    sample = np.zeros((runs , size))
-    for i in range(len(sample)):
-        sample[i] = draw(whites,size)
-    plt.hist(sample.sum(axis = 1),bins = size)
-    #plt.imshow(sample().T)
-    plt.show()
-    return sample
+    n=length
+    k = np.arange(0,length+1,1)
+    strong,weak = (binom.pmf(k,n,p) for p in [p_strong,p_weak])
+    P = strong*P_is_strong + weak*P_is_weak
+    return P,strong,weak
+         
 
-
-def sim(P_strong = 0.4,strong = 4, size = 6, runs = 1000):
+for Ps in np.arange(0,1,0.1):
     
-    '''overengeneered''' 
-    sample = ()
-    regimes = ()
-    for r in range(runs):
-        regime = np.random.binomial(1, P_strong) 
-        if regime == 0:
-            x = draw(3,6)
-        else:
-            x = draw(4,6)
-        sample += x,
-        regimes += regime,
-    x = np.asarray(sample)
+    dist = grether_disribution(Ps)
+    for i in dist:
+        plt.plot(i)
     
-    plt.hist(x.sum(axis=1),bins = size)
     plt.show()
-    return x
 
-x = sim()
+
+
+#        print(k,p,binom.pmf(k, n, p))
+
+    
+#fig, ax = plt.subplots(1, 1)
+# calc 4 moments:
+#mean, var, skew, kurt = binom.stats(n, p, moments='mvsk')
+#x = np.arange(binom.ppf(0.01, n, p),
+#
+#              binom.ppf(0.99, n, p))
+#ax.plot(x, binom.pmf(x, n, p), 'bo', ms=8, label='binom pmf')
+
+#ax.vlines(x, 0, binom.pmf(x, n, p), colors='b', lw=6, alpha=0.5)
+# frozen PMF
+#rv = binom(n, p)
+
+#ax.vlines(x, 0, rv.pmf(x), colors='k', linestyles='-', lw=1,
+
+#        label='frozen pmf')
+
+#ax.legend(loc='best', frameon=False)
+
+#plt.show()
