@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+#use wrapper heatmap_color() 
 def heatmap(data, row_labels, col_labels, ax=None,
             cbar_kw={}, cbarlabel="", **kwargs):
     """

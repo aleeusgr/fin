@@ -1,4 +1,48 @@
 
+def grether():
+    from models.grether import grether_distribution
+    
+    import matplotlib.pyplot as plt
+    import numpy as np
+    for Ps in np.arange(0,1,0.1):
+        
+        dist = grether_distribution(Ps)
+        for i in dist:
+            plt.plot(i)
+        
+        plt.show()
+
+def lucas_tree_test():
+
+    from models import lucas as l
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    print('function has greek latters in code')
+    for β in (.95, 0.98):
+        tree = l.LucasTree(β=β)
+        grid = tree.grid
+        price_vals = l.solve_model(tree)
+        label = rf'$\beta = {β}$'
+        ax.plot(grid, price_vals, lw=2, alpha=0.7, label=label)
+
+    ax.legend(loc='upper left')
+    ax.set(xlabel='$y$', ylabel='price', xlim=(min(grid), max(grid)))
+    plt.show()
+
+def test_heatmap():
+    import util.heatmap as h
+    import numpy as np
+    import pandas as pd
+    low = -10
+    high = 10
+    size = 20
+
+    data = np.random.randint(low,high,size=(size,size))
+    labels = [str(i) for i in range(size)]
+    h.heatmap_color(data,labels, labels) 
+
+##broken:
 def portfolio_test():
     '''
     data/portfolio.xls
@@ -34,7 +78,7 @@ def portfolio_test():
     plt.show()
     #
 
-def metrics_test(period = 'q', verbose = False):
+def test_metrics(period = 'q', verbose = False):
     from util.util import compare 
     from data_modules import yhf_wrp as yhf
     metrics = ('ROCE' , 'ap' , 'npm' , 'd/e' ,'rnd' , 'inv' , 'earn') 
@@ -52,25 +96,9 @@ def metrics_test(period = 'q', verbose = False):
             errors += m,
     print('errors in %s'%[e for e in errors])
 
-def lucas_tree_test():
-
-    from models import lucas as l
-    import matplotlib.pyplot as plt
-
-    fig, ax = plt.subplots(figsize=(10, 6))
-    print('function has greek latters in code')
-    for β in (.95, 0.98):
-        tree = l.LucasTree(β=β)
-        grid = tree.grid
-        price_vals = l.solve_model(tree)
-        label = rf'$\beta = {β}$'
-        ax.plot(grid, price_vals, lw=2, alpha=0.7, label=label)
-
-    ax.legend(loc='upper left')
-    ax.set(xlabel='$y$', ylabel='price', xlim=(min(grid), max(grid)))
-    plt.show()
 
 def HRP_test(df,amount = 60000):
+
     '''needs reworking, load df: price by ticker'''
     from pypfopt.expected_returns import mean_historical_return
     from pypfopt.risk_models import CovarianceShrinkage
