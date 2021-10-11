@@ -1,7 +1,8 @@
 import pandas as pd
 from yahoo_fin import stock_info as si
-
+# maybe change module??
 def fetch(ticker, what = 'price'):
+    # json decode error
     ''' what: str, fin, an, price, summary'''
     data = {
     'fin' : si.get_financials, #includes balance sheet,income, cash flow

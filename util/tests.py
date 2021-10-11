@@ -12,7 +12,7 @@ def grether():
         
         plt.show()
 
-def lucas_tree_test():
+def lucas_tree():
 
     from models import lucas as l
     import matplotlib.pyplot as plt
@@ -30,7 +30,7 @@ def lucas_tree_test():
     ax.set(xlabel='$y$', ylabel='price', xlim=(min(grid), max(grid)))
     plt.show()
 
-def test_heatmap():
+def heatmap():
     import util.heatmap as h
     import numpy as np
     import pandas as pd
@@ -42,7 +42,6 @@ def test_heatmap():
     labels = [str(i) for i in range(size)]
     h.heatmap_color(data,labels, labels) 
 
-##broken:
 def portfolio_test():
     '''
     data/portfolio.xls
@@ -78,7 +77,8 @@ def portfolio_test():
     plt.show()
     #
 
-def test_metrics(period = 'q', verbose = False):
+##broken:
+def fin_multiples(period = 'q', verbose = False):
     from util.util import compare 
     from data_modules import yhf_wrp as yhf
     metrics = ('ROCE' , 'ap' , 'npm' , 'd/e' ,'rnd' , 'inv' , 'earn') 
