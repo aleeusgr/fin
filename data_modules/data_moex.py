@@ -14,14 +14,17 @@ def get_reference(n):
         #df = pd.DataFrame(data)
     return data
 
-def get_tickers(engine = 'stock', market = 'shares', board = 'TQBR'):
+def get_tickers():
     '''
     Only works with default values
     full list of tickers.
     rewrite
     '''    
-    request_url = (f'https://iss.moex.com/iss/engines/{engine}/'
-                   'markets/{market}/boards/{board}/securities.json')
+    engine = 'stock'
+    market = 'shares'
+    board = 'TQBR'
+    request_url = ('https://iss.moex.com/iss/engines/{}/'
+                   'markets/{}/boards/{}/securities.json'.format(engine,market,board))
     arguments = {'securities.columns': ('SECID,'
                                         'REGNUMBER,'
                                         'LOTSIZE,'
@@ -30,7 +33,7 @@ def get_tickers(engine = 'stock', market = 'shares', board = 'TQBR'):
         iss = mx.ISSClient(session, request_url, arguments)
         data = iss.get()
         df = pd.DataFrame(data['securities'])
-        df.set_index('SECID', inplace=True)
+        #df.set_index('SECID', inplace=True)
 
         #df.to_csv('./data/moex_tickers.csv')
     return df
@@ -38,12 +41,12 @@ def get_tickers(engine = 'stock', market = 'shares', board = 'TQBR'):
 def get_history(ticker='SNGSP'):    
     '''rename, returns historical data for give ticker'''
     with requests.Session() as session:
-        data = apimoex.get_board_history(session,ticker)
+        data = mx.get_board_history(session,ticker)
         df = pd.DataFrame(data)
         df.set_index('TRADEDATE', inplace=True)
     return df
 
-def get_candles(ticker='SNGSP',start = '2021-01-13', cut = False): 
+def fetch_candles(ticker='SNGSP',start = '2021-01-13', cut = False, save = True): 
     '''rename, returns historical data for give ticker
     cut: return only data for specified col, rename col with ticker name'''
     with requests.Session() as session:
@@ -54,6 +57,15 @@ def get_candles(ticker='SNGSP',start = '2021-01-13', cut = False):
         df['begin'] = pd.to_datetime(df['begin'])
         if cut:
             df = df.rename(columns = {cut:ticker}) # this should be separate function
+        if save:
+            df.to_csv(f'/local_data/{ticker}.csv')
+    return df
+
+def load_local(ticker = 'SNGSP'):
+    df = pd.read_csv(f'./local_data/{ticker}.csv', index_col = 'begin', parse_dates = True)
+    df.rename(columns = {'value':'Volume'}, inplace = True)
+    df.columns = df.columns.str.title()
+    
     return df
 
 def custom_request(f,ticker='SNGSP',board='TQBR'):    

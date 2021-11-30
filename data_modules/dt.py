@@ -46,7 +46,7 @@ def portfolio():
     tickers = import_tickers()
     df = pd.concat([dtm.get_candles(ticker,cut='close')[ticker] for ticker in tickers.columns],axis = 1) # produce dataframe with tickers as col labels and 'close' price.
     print('USD is set to fixed rate 77.1; need to implement')
-    usd = 77.1
+    usd = 72.1
     for c in ['TIPO','TECH']:
         df[c] *=usd    
     df['PF'] = df.dot(tickers.iloc[0])

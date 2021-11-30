@@ -2,7 +2,7 @@
 ### models: 
 asset pricing: 
 lucas - asset is a claim to a stream of endowment
-grether - BAAP ch4, Shefrin 
+grether - BAAP ch4, Shefrin; utility function over an epistemic probability distibution. 
 ### tests: 
 util/visual: generate timeseries
     /metrics: 
