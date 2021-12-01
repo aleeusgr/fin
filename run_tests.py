@@ -6,5 +6,6 @@ from util.tests import *
 #portfolio_test() # heatmap broken, missing dependency
 
 ##failed 07.10
-fin_multiples(period = 'y') # debug needed.
+#fin_multiples(period = 'y') # debug needed.
 #HRP_test()
+candlechart()

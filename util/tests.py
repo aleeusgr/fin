@@ -29,6 +29,11 @@ def lucas_tree():
     ax.legend(loc='upper left')
     ax.set(xlabel='$y$', ylabel='price', xlim=(min(grid), max(grid)))
     plt.show()
+def candlechart():
+    from data_modules.data_moex import fetch_candles
+    from util.visual import candles
+    df = fetch_candles(save = False)
+    candles(df)
 
 def heatmap():
     import util.heatmap as h

@@ -55,19 +55,15 @@ def fetch_candles(ticker='SNGSP',start = '2021-01-13', cut = False, save = True)
 
         df = pd.DataFrame(data)
         df['begin'] = pd.to_datetime(df['begin'])
+        df.columns = df.columns.str.title()
+        df.rename(columns = {'Value':'Volume', 'Begin': ticker}, inplace = True)
+        df.set_index(ticker, inplace = True)
         if cut:
             df = df.rename(columns = {cut:ticker}) # this should be separate function
         if save:
-            df.to_csv(f'/local_data/{ticker}.csv')
+            df.to_csv(f'./local_data/{ticker}.csv')
     return df
 
-def load_local(ticker = 'SNGSP'):
-    df = pd.read_csv(f'./local_data/{ticker}.csv', index_col = 'begin', parse_dates = True)
-    df.rename(columns = {'value':'Volume'}, inplace = True)
-    df.index.rename(ticker, inplace = True)
-    df.columns = df.columns.str.title()
-    
-    return df
 
 def custom_request(f,ticker='SNGSP',board='TQBR'):    
     '''send custom request. 

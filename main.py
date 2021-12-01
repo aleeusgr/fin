@@ -4,8 +4,6 @@ import pandas as pd
 from data_modules import binance as bi
 import datetime
 
-df = dm.load_local()
+ticker = 'SNGSP'
+df = pd.read_csv(f'./local_data/{ticker}.csv', parse_dates = True,index_col = ticker)
 
-
-
-candles(df)
