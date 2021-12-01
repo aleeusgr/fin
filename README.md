@@ -2,15 +2,39 @@
 data -> (vis) -> [] -> backtestin
 
 [FE, signal] 
+#### Data:
+* Market
+* Fundamental: util/metrics fails tests, fetching data fails.
+* Alt
+visualise
+#### Point-in-time
+#### Feature engineering
+#### ML
+* Models
+* H/P tuning
+* CV
+
+#### Monitoring
+* Risk management
+* Performance
+* Attribution
+#### Predictions
+* risk factors
+* Price/return
+* Covariance
+
+#### Asset selection
+* Rule
+* Models
+* Bet sizing
+
+#### P/F optimization
+#### Order exec 
+* tinkoff, binance, alpaca
 
 TODO:
 
-* util/metrics fails tests, fetching data fails.
-* vis: candles, tech analysis, see: Jansen
-* time series: Montgomery
-* NLP: jansen
-* order exec.: tinkoff, binance, alpaca
-* core and sentiment: see Shefrin, 15,16. 
+* Shefrin
 
 ### models: 
 asset pricing: 
