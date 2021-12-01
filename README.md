@@ -1,7 +1,5 @@
 # fin
-data -> (vis) -> [] -> backtestin
-
-[FE, signal] 
+### Roadmap
 #### Data:
 * Market
 * Fundamental: util/metrics fails tests, fetching data fails.

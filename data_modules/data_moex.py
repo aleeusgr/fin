@@ -64,6 +64,7 @@ def fetch_candles(ticker='SNGSP',start = '2021-01-13', cut = False, save = True)
 def load_local(ticker = 'SNGSP'):
     df = pd.read_csv(f'./local_data/{ticker}.csv', index_col = 'begin', parse_dates = True)
     df.rename(columns = {'value':'Volume'}, inplace = True)
+    df.index.rename(ticker, inplace = True)
     df.columns = df.columns.str.title()
     
     return df
