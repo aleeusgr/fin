@@ -14,10 +14,6 @@ def impute(df):
 
     return pd.DataFrame(imputer.fit_transform(test),index = df.index, columns = df.columns)
 
-def outlier_sample(t = 'UCSS'):
-    import pandas as pd
-    return pd.read_csv('./local_data/{}.csv'.format(t)).loc[:,'CLOSE']
-
 
 def import_tickers():
     '''Import data from my excel file

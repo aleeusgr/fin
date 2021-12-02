@@ -6,7 +6,7 @@ REFACTOR: pandas_datareader, world_bank_data and other wrappers
 def fetch(save = False, dset_name = 'RUB'):
     '''Get data from web
      DO:
-        
+     decompose   
      try different sources
      parameters 
 
@@ -85,14 +85,3 @@ def load_local_x():
             data[f] =  pd.read_csv(f)
 
     return data
-def show_train_x_graphs():
-    '''deprecated?'''
-    oil = pd.read_csv('oil.csv')
-    rub = pd.read_csv('rub.csv')
-
-    plt.figure(figsize=(10,5))
-    plt.plot(oil['Close'],label='Crude Oil')
-    plt.plot(rub['Close'],label='USD/RUB')
-    plt.legend()
-    plt.show()
-

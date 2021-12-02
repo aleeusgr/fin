@@ -36,7 +36,7 @@ def candlechart():
     candles(df)
 
 def heatmap():
-    import util.heatmap as h
+    import visual.heatmap as h
     import numpy as np
     import pandas as pd
     low = -10
